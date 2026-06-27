@@ -45,9 +45,39 @@ type LendingState = {
   repay: (params: { amount: string; asset: string }) => Promise<any>;
 };
 
-export const useStore = create<AuthState & UiState & LendingState>((
-  set: (partial: Partial<AuthState & UiState & LendingState> | ((state: AuthState & UiState & LendingState) => Partial<AuthState & UiState & LendingState>)) => void,
-  get: () => AuthState & UiState & LendingState
+type PortfolioState = {
+  balance: number;
+  collateralValue: number;
+  borrowedValue: number;
+  availableToBorrow: number;
+  healthFactor: number;
+  portfolioLoading: boolean;
+  portfolioError: string | null;
+  transactions: any[];
+  transactionsLoading: boolean;
+  transactionsError: string | null;
+  fetchPortfolio: () => Promise<void>;
+  fetchTransactions: () => Promise<void>;
+};
+
+type PortfolioState = {
+  balance: number;
+  collateralValue: number;
+  borrowedValue: number;
+  availableToBorrow: number;
+  healthFactor: number;
+  portfolioLoading: boolean;
+  portfolioError: string | null;
+  transactions: any[];
+  transactionsLoading: boolean;
+  transactionsError: string | null;
+  fetchPortfolio: () => Promise<void>;
+  fetchTransactions: () => Promise<void>;
+};
+
+export const useStore = create<AuthState & UiState & LendingState & PortfolioState>((
+  set: (partial: Partial<AuthState & UiState & LendingState & PortfolioState> | ((state: AuthState & UiState & LendingState & PortfolioState) => Partial<AuthState & UiState & LendingState & PortfolioState>)) => void,
+  get: () => AuthState & UiState & LendingState & PortfolioState & PortfolioState
 ) => ({
   // Auth
   address: null,
