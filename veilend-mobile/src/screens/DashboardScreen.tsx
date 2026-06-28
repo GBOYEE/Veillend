@@ -45,7 +45,7 @@ export default function DashboardScreen({ navigation }: any) {
     transactionsLoading,
     fetchTransactions,
   } = useStore();
-  const [data, setData] = useState(null as any);
+  const [data, setData] = useState<Record<string, unknown> | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   
   // Profile Menu State
@@ -179,7 +179,7 @@ export default function DashboardScreen({ navigation }: any) {
           
           {/* Added privacy shield top-right */}
           <View style={styles.privacyBadge}>
-            <Ionicons name={item.icon as any} size={isSmallScreen ? 16 : 20} color="#00D1FF" />
+            <Ionicons name={item.icon as string} size={isSmallScreen ? 16 : 20} color="#00D1FF" />
             <Text style={styles.privacyText}>ZK Shielded</Text>
           </View>
         </View>
@@ -390,11 +390,11 @@ export default function DashboardScreen({ navigation }: any) {
       {/* Transactions List */}
       <Text style={styles.sectionTitle}>Transactions</Text>
       <View style={styles.transactionsList}>
-        {MOCK_TRANSACTIONS.map((tx) => (
+        {transactions.map((tx: { id: string; icon: string; title: string; date: string }) => (
           <View key={tx.id} style={styles.txItem}>
             <View style={styles.txLeft}>
               <View style={styles.txIconBox}>
-                <Ionicons name={tx.icon as any} size={20} color="#fff" />
+                <Ionicons name={tx.icon as string} size={20} color="#fff" />
               </View>
               <View>
                 <Text style={styles.txTitle}>{tx.title}</Text>

@@ -1,7 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HorizonService } from '../stellar/horizon.service';
 import { ServiceResponse } from '../stellar/types';
-import { TransactionRecord } from './transactions.service';
+
+export interface TransactionRecord {
+  id: string;
+  type: 'deposit' | 'withdraw' | 'borrow' | 'repay' | 'transfer';
+  amount: number;
+  asset: string;
+  timestamp: string;
+  status: string;
+  txHash: string;
+}
 
 @Injectable()
 export class TransactionsService {
@@ -21,15 +30,16 @@ export class TransactionsService {
         let asset = 'XLM';
 
         if (tx.operations && tx.operations.length > 0) {
-          const op = tx.operations[0];
-          if (op.type === 'payment') {
+          const op = tx.operations[0] as Record<string, unknown>;
+          const opType = op.type as string | undefined;
+          if (opType === 'payment') {
             type = 'transfer';
-            amount = parseFloat(op.amount as string) || 0;
-            asset = (op.asset_code as string) || 'XLM';
-          } else if (op.type === 'change_trust') {
+            amount = parseFloat(String(op.amount ?? '')) || 0;
+            asset = String(op.asset_code ?? 'XLM');
+          } else if (opType === 'change_trust') {
             type = 'deposit';
-            amount = parseFloat(op.limit as string) || 0;
-            asset = (op.asset_code as string) || 'UNKNOWN';
+            amount = parseFloat(String(op.limit ?? '')) || 0;
+            asset = String(op.asset_code ?? 'UNKNOWN');
           }
         }
 

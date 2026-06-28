@@ -45,19 +45,14 @@ type LendingState = {
   repay: (params: { amount: string; asset: string }) => Promise<any>;
 };
 
-type PortfolioState = {
-  balance: number;
-  collateralValue: number;
-  borrowedValue: number;
-  availableToBorrow: number;
-  healthFactor: number;
-  portfolioLoading: boolean;
-  portfolioError: string | null;
-  transactions: any[];
-  transactionsLoading: boolean;
-  transactionsError: string | null;
-  fetchPortfolio: () => Promise<void>;
-  fetchTransactions: () => Promise<void>;
+type TransactionRecord = {
+  id: string;
+  type: 'deposit' | 'withdraw' | 'borrow' | 'repay' | 'transfer';
+  amount: number;
+  asset: string;
+  timestamp: string;
+  status: string;
+  txHash: string;
 };
 
 type PortfolioState = {
@@ -68,7 +63,7 @@ type PortfolioState = {
   healthFactor: number;
   portfolioLoading: boolean;
   portfolioError: string | null;
-  transactions: any[];
+  transactions: TransactionRecord[];
   transactionsLoading: boolean;
   transactionsError: string | null;
   fetchPortfolio: () => Promise<void>;
@@ -77,7 +72,7 @@ type PortfolioState = {
 
 export const useStore = create<AuthState & UiState & LendingState & PortfolioState>((
   set: (partial: Partial<AuthState & UiState & LendingState & PortfolioState> | ((state: AuthState & UiState & LendingState & PortfolioState) => Partial<AuthState & UiState & LendingState & PortfolioState>)) => void,
-  get: () => AuthState & UiState & LendingState & PortfolioState & PortfolioState
+  get: () => AuthState & UiState & LendingState & PortfolioState
 ) => ({
   // Auth
   address: null,
