@@ -2,6 +2,27 @@
 
 This directory is the active Rust/Soroban contract workspace for VeilLend on Stellar.
 
+## Quickstart
+
+Get the contract building and testing in under 5 minutes:
+
+```bash
+# 1. Install the Rust toolchain (pinned to 1.88.0)
+rustup toolchain install 1.88.0
+rustup target add wasm32-unknown-unknown --toolchain 1.88.0
+
+# 2. Build the contract
+cargo build --target wasm32-unknown-unknown --release
+
+# 3. Run the test suite
+cargo test
+
+# 4. (Optional) Install Stellar CLI for deployment workflows
+cargo install --locked stellar-cli --version 23.0.1
+```
+
+Already have the toolchain? Jump straight to `cargo test`.
+
 ## Current Scope
 
 The contract currently provides an initial VeilLend lending scaffold with:
@@ -13,6 +34,17 @@ The contract currently provides an initial VeilLend lending scaffold with:
 - typed contract events for key lending actions
 
 This is a protocol foundation, not the full privacy implementation yet. Token transfers, price oracles, liquidation logic, and shielded proof verification still need to be added in follow-up iterations.
+
+## New Contributors
+
+Welcome! Here's how to get oriented:
+
+1. Read the **Prerequisites** and **Local Build** sections below to set up your environment.
+2. Run `cargo test` to confirm everything works before making changes.
+3. Check the **Development Workflow** for the format → test → build loop.
+4. Open a PR with `Closes #<issue-number>` if you're fixing a specific issue.
+
+The codebase uses `cargo fmt` and `cargo clippy --all-targets -- -D warnings` for linting. Both run in CI on every PR.
 
 ## Prerequisites
 
